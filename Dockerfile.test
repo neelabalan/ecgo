@@ -1,0 +1,8 @@
+FROM golang:1.22-bookworm AS tester
+WORKDIR /ecgo
+COPY . .
+
+RUN make test-cov
+
+FROM debian:bookworm-slim
+COPY --from=tester /ecgo/coverage/coverage.out /coverage.out
